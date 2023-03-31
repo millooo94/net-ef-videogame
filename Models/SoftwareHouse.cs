@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace net_ef_videogame.Models
 {
-    public class SoftwareHouse
+    public record SoftwareHouse
     {
         public int Id { get; set; }
         public string? Name { get; set; }
