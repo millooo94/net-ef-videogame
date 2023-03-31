@@ -1,7 +1,8 @@
 ﻿using net_ef_videogame.Models;
 using Microsoft.EntityFrameworkCore;
+using net_ef_videogame;
 
-using var context = new VideogamesContext();
+var manager = new VideogameManagerEF();
 
 while (true)
 {
@@ -30,8 +31,7 @@ while (true)
 
             try
             {
-                context.SoftwareHouses.Add(software_house);
-                context.SaveChanges();
+                manager.AddSoftwareHouse(software_house);
                 Console.WriteLine("Software house inserita con successo!");
             }
             catch (Exception ex)
@@ -55,8 +55,7 @@ while (true)
 
             try
             {
-                context.Videogames.Add(videogame);
-                context.SaveChanges();
+                manager.AddVideogame(videogame);
                 Console.WriteLine("Videogioco inserito con successo!");
             }
             catch (Exception ex)
@@ -69,48 +68,43 @@ while (true)
 
         case "3":
             Console.Write("Search a videogame by ID: ");
-            var id = Convert.ToInt64(Console.ReadLine());
-            var videogameSearchedById = context.Videogames
-                .Where(v => v.Id== id)
-                .ToList();
-            foreach (var item in videogameSearchedById)
+            var id = Convert.ToInt32(Console.ReadLine());
+            var videogamesSearchedById = manager.GetVideogameById(id);
+            foreach (Videogame searchedVideogame in videogamesSearchedById)
             {
-                Console.WriteLine(item);
+                Console.WriteLine(searchedVideogame);
             }
             break;
 
         case "4":
             Console.WriteLine("Search a videogame by name:");
             var nameQuery = Console.ReadLine();
-            var videogamesSearchedByName = context.Videogames.Where(item => item.Name.Contains(nameQuery));
-            foreach (Videogame item in videogamesSearchedByName)
+            var videogamesSearchedByName = manager.GetVideogameByNameLike(nameQuery);
+            foreach (Videogame searchedVideogame in videogamesSearchedByName)
             {
-                Console.WriteLine(item);
+                Console.WriteLine(searchedVideogame);
             }
             break;
 
         case "5":
             Console.WriteLine("Search a videogame by software house's ID:");
             var idSh = Convert.ToInt32(Console.ReadLine());
-            var videogamesSearchedSh = context.Videogames.Include(v => v.SoftwareHouse).Where(v => v.SoftwareHouseId == idSh);
+            var videogamesSearchedBySHId = manager.GetVideogameBySoftwareHouseId(idSh);
 
 
-            foreach (Videogame item in videogamesSearchedSh)
+            foreach (Videogame searchedVideogame in videogamesSearchedBySHId)
             {
-                Console.WriteLine(item);
+                Console.WriteLine(searchedVideogame);
             }
             break;
 
         case "6":
             Console.WriteLine("Delete a videogame by Id:");
             var IdForDelete = Convert.ToInt32(Console.ReadLine());
-            var videogamesToDelete = context.Videogames
-                            .Where(v => v.Id == IdForDelete)
-                            .ToList();
+
             try
             {
-                context.Videogames.RemoveRange(videogamesToDelete);
-                context.SaveChanges();
+                manager.deleteVideogameById(IdForDelete);
                 Console.WriteLine("Videogame successfully deleted");
             }
             catch (Exception ex)
