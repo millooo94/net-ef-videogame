@@ -92,7 +92,9 @@ while (true)
         case "5":
             Console.WriteLine("Search a videogame by software house's ID:");
             var idSh = Convert.ToInt32(Console.ReadLine());
-            var videogamesSearchedSh = context.Videogames.Where(item => item.Id == idSh);
+            var videogamesSearchedSh = context.Videogames.Include(v => v.SoftwareHouse).Where(v => v.SoftwareHouseId == idSh);
+
+
             foreach (Videogame item in videogamesSearchedSh)
             {
                 Console.WriteLine(item);
@@ -113,7 +115,7 @@ while (true)
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex);
             }
 
             break;
