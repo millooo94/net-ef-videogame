@@ -1,6 +1,7 @@
-﻿using net_ef_videogame.Models;
+﻿using net_ef_videogame;
+using net_ef_videogame.Models;
+using net_ef_videogame.Manager;
 using Microsoft.EntityFrameworkCore;
-using net_ef_videogame;
 
 var manager = new VideogameManagerEF();
 
@@ -69,11 +70,8 @@ while (true)
         case "3":
             Console.Write("Search a videogame by ID: ");
             var id = Convert.ToInt32(Console.ReadLine());
-            var videogamesSearchedById = manager.GetVideogameById(id);
-            foreach (Videogame searchedVideogame in videogamesSearchedById)
-            {
-                Console.WriteLine(searchedVideogame);
-            }
+            var videogameSearchedById = manager.GetVideogameById(id);
+            Console.WriteLine(videogameSearchedById);
             break;
 
         case "4":
@@ -104,7 +102,7 @@ while (true)
 
             try
             {
-                manager.deleteVideogameById(IdForDelete);
+                manager.DeleteVideogameById(IdForDelete);
                 Console.WriteLine("Videogame successfully deleted");
             }
             catch (Exception ex)

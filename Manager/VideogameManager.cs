@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace net_ef_videogame
+namespace net_ef_videogame.Manager
 {
     public abstract record VideogameManager
     {
         public abstract void AddSoftwareHouse(SoftwareHouse softwareHouse);
         public abstract void AddVideogame(Videogame videogame);
-        public abstract List<Videogame> GetVideogameById(int id);
+        public abstract Videogame GetVideogameById(int id);
         public abstract List<Videogame> GetVideogameByNameLike(string nameQuery);
         public abstract List<Videogame> GetVideogameBySoftwareHouseId(int id);
-        public abstract void deleteVideogameById(int id);
+        public abstract void DeleteVideogameById(int id);
     }
 }

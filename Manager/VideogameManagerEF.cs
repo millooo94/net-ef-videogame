@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace net_ef_videogame
+namespace net_ef_videogame.Manager
 {
     public record VideogameManagerEF : VideogameManager
     {
@@ -27,10 +27,10 @@ namespace net_ef_videogame
             context.Videogames.Add(videogame);
             context.SaveChanges();
         }
-        public override List<Videogame> GetVideogameById(int id)
+        public override Videogame GetVideogameById(int id)
         {
-            var videogameSearchedById = context.Videogames.Where(v => v.Id == id);
-            return videogameSearchedById.ToList();
+            var videogameSearchedById = context.Videogames.Where(v => v.Id == id).First();
+            return videogameSearchedById;
         }
         public override List<Videogame> GetVideogameByNameLike(string nameQuery)
         {
@@ -42,7 +42,7 @@ namespace net_ef_videogame
             var videogamesSearchedSh = context.Videogames.Include(v => v.SoftwareHouse).Where(v => v.SoftwareHouseId == id);
             return videogamesSearchedSh.ToList();
         }
-        public override void deleteVideogameById(int id)
+        public override void DeleteVideogameById(int id)
         {
             var videogamesToDelete = context.Videogames.Where(v => v.Id == id).ToList();
             context.Videogames.RemoveRange(videogamesToDelete);
